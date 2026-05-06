@@ -61,6 +61,12 @@ module DodoTools
           face.reverse! if outward.dot(face.normal) < 0
         end
 
+        # Soften and smooth all edges so the sphere looks round
+        g_ents.grep(Sketchup::Edge).each do |edge|
+          edge.soft   = true
+          edge.smooth = true
+        end
+
         # Move group to the chosen center point
         tr = Geom::Transformation.translation(center)
         group.transformation = tr
