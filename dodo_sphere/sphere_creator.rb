@@ -54,6 +54,13 @@ module DodoTools
           end
         end
 
+        # Ensure all face normals point outward (white face outside)
+        g_ents.grep(Sketchup::Face).each do |face|
+          c = face.bounds.center
+          outward = Geom::Vector3d.new(c.x, c.y, c.z)
+          face.reverse! if outward.dot(face.normal) < 0
+        end
+
         # Move group to the chosen center point
         tr = Geom::Transformation.translation(center)
         group.transformation = tr
